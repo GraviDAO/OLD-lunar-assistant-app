@@ -19,8 +19,4 @@ npm run dev
 - Improve UI
 - Support multiple wallets with an ordering
 - Support for linking twitter accounts
-
-
-
-
-
+- Add support for basic voting
