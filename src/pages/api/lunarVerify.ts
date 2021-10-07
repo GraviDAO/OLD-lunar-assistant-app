@@ -7,10 +7,6 @@ import jwt from 'jsonwebtoken';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import * as secp256k1 from 'secp256k1';
 
-interface User {
-  wallets: string[];
-}
-
 type Data = {
   result: string;
 };
@@ -21,7 +17,7 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     console.log(req.body);
-    const verificationTransaction = req.body;
+    const verificationTransaction = req.body as LunarVerifyRequest;
 
     // get the signature buffer
     const sigBuffer = Buffer.from(verificationTransaction.signature, 'base64');
@@ -54,18 +50,9 @@ export default async function handler(
 
       const userDoc = await db.collection('users').doc(userID).get();
 
-      let user: User;
-      if (userDoc.exists) {
-        user = userDoc.data() as User;
-
-        if (!user.wallets.includes(verificationTransaction.wallet_address)) {
-          user.wallets.push(verificationTransaction.wallet_address);
-        }
-      } else {
-        user = {
-          wallets: [verificationTransaction.wallet_address],
-        };
-      }
+      const user: User = {
+        wallet: verificationTransaction.wallet_address,
+      };
 
       await db.collection('users').doc(userID).set(user);
     } catch {

@@ -1,8 +1,4 @@
 # Lunar Assistant
-
-## Usage
-
-Run the bot and the frontend and the firebase functions.
 ## Setup
 
 Copy the `.env` to `.env.local` and populate the variables.
@@ -10,7 +6,7 @@ Copy the `.env` to `.env.local` and populate the variables.
 
 ```
 npm install
-npm run start
+npm run dev
 ```
 
 
