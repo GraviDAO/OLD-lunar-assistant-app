@@ -14,6 +14,12 @@ npm install
 npm run dev
 ```
 
+## Next Steps
+
+- Improve UI
+- Support multiple wallets with an ordering
+
+
 
 
 
