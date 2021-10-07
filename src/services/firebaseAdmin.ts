@@ -1,16 +1,16 @@
-import admin, { ServiceAccount } from 'firebase-admin';
+import admin from 'firebase-admin';
 
 const FIREBASE_ADMIN_SERVICE_ACCOUNT =
-  process.env.FIREBASE_ADMIN_SERVICE_ACCOUNT;
+  process.env.FIREBASE_ADMIN_SERVICE_ACCOUNT!;
 
-console.log(FIREBASE_ADMIN_SERVICE_ACCOUNT);
 if (!admin.apps.length) {
   try {
-    const serviceAccount = JSON.parse(
-      FIREBASE_ADMIN_SERVICE_ACCOUNT!,
-    ) as ServiceAccount;
+    const serviceAccount = JSON.parse(FIREBASE_ADMIN_SERVICE_ACCOUNT);
 
-    console.log(serviceAccount);
+    serviceAccount.private_key = serviceAccount.private_key.replace(
+      /\\n/g,
+      '\n',
+    );
 
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
