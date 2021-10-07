@@ -6,10 +6,14 @@ const FIREBASE_ADMIN_SERVICE_ACCOUNT =
 console.log(FIREBASE_ADMIN_SERVICE_ACCOUNT);
 if (!admin.apps.length) {
   try {
+    const serviceAccount = JSON.parse(
+      FIREBASE_ADMIN_SERVICE_ACCOUNT!,
+    ) as ServiceAccount;
+
+    console.log(serviceAccount);
+
     admin.initializeApp({
-      credential: admin.credential.cert(
-        JSON.parse(FIREBASE_ADMIN_SERVICE_ACCOUNT!) as ServiceAccount,
-      ),
+      credential: admin.credential.cert(serviceAccount),
     });
   } catch (error) {
     console.log('Firebase admin initialization error', error);

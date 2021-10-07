@@ -133,8 +133,6 @@ const WelcomeCards = ({
   const connectedWallet = useConnectedWallet();
   const router = useRouter();
   const { jwt: jwtString } = router.query;
-  console.log('JWTSTRING');
-  console.log(jwtString);
 
   return (
     <div>
