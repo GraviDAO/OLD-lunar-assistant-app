@@ -7,6 +7,7 @@ if (!admin.apps.length) {
   try {
     const serviceAccount = JSON.parse(FIREBASE_ADMIN_SERVICE_ACCOUNT);
 
+    // replace the escaped new lines with real new lines in the private key
     serviceAccount.private_key = serviceAccount.private_key.replace(
       /\\n/g,
       '\n',

@@ -182,6 +182,7 @@ const WelcomeCards = ({
                 });
                 setLoading(true);
 
+                // send the transaction to the backend
                 await LunarApi.post('/api/lunarVerify', {
                   wallet_address: connectedWallet.walletAddress,
                   public_key: verificationTransaction.result.public_key,
@@ -192,6 +193,7 @@ const WelcomeCards = ({
                   jwt: jwtString,
                 });
 
+                // indicate that the wallet has been linked successfully
                 setLoading(false);
                 setLinkComplete(true);
               }

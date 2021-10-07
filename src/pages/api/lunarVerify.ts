@@ -48,12 +48,11 @@ export default async function handler(
         JWT_SECRET,
       ) as jwt.JwtPayload;
 
-      const userDoc = await db.collection('users').doc(userID).get();
-
       const user: User = {
         wallet: verificationTransaction.wallet_address,
       };
 
+      // save the wallet to the user
       await db.collection('users').doc(userID).set(user);
     } catch {
       return res.status(400).json({ result: 'failure' });
