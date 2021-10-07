@@ -3,6 +3,7 @@ import admin, { ServiceAccount } from 'firebase-admin';
 const FIREBASE_ADMIN_SERVICE_ACCOUNT =
   process.env.FIREBASE_ADMIN_SERVICE_ACCOUNT;
 
+console.log(FIREBASE_ADMIN_SERVICE_ACCOUNT);
 if (!admin.apps.length) {
   try {
     admin.initializeApp({
