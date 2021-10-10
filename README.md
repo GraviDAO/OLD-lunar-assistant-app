@@ -15,9 +15,6 @@ npm install
 npm run dev
 ```
 
-## Next Steps
+## Roadmap
 
-- Improve UI
-- Support multiple wallets with an ordering
-- Support for linking twitter accounts
-- Add support for basic voting
+See the roadmap here: https://github.com/orgs/GraviDAO/projects
