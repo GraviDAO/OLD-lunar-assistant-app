@@ -4,11 +4,13 @@ import {
   Card,
   CircularProgress,
   Grid,
+  Snackbar,
   Theme,
   Typography,
   useTheme,
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
+import { Alert } from '@material-ui/lab';
 import { MsgSend, StdFee } from '@terra-money/terra.js';
 import {
   useConnectedWallet,
@@ -130,9 +132,19 @@ const WelcomeCards = ({
   } = useWallet();
   const [loading, setLoading] = useState(false);
 
+  const [open, setOpen] = React.useState(false);
+
   const connectedWallet = useConnectedWallet();
   const router = useRouter();
   const { jwt: jwtString } = router.query;
+
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   return (
     <div>
@@ -196,6 +208,7 @@ const WelcomeCards = ({
                 // indicate that the wallet has been linked successfully
                 setLoading(false);
                 setLinkComplete(true);
+                setOpen(true);
               }
             }}
           />
@@ -213,6 +226,12 @@ const WelcomeCards = ({
           <CircularProgress />
         </div>
       )}
+      <Snackbar open={open} autoHideDuration={10000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Wallet linked successfully! Run '/lunar-view-roles' in Discord to see
+          what roles you have been granted!
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
