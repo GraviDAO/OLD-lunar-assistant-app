@@ -171,7 +171,7 @@ const WelcomeCards = ({
           <OnboardingCard
             number="2"
             title="Sign A Transaction"
-            caption="Sign a transaction that will prove ownership of your wallet."
+            caption="Sign a transaction that will prove ownership of your wallet. It will not cost you anything."
             buttonText="Sign Transaction"
             status={
               linkComplete

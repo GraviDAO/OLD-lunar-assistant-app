@@ -26,6 +26,7 @@
     "react/jsx-props-no-spreading": "off",
     "react/no-unused-prop-types": "off",
     "react/react-in-jsx-scope": "off",
+    "react/no-unescaped-entities": "off",
     "react/require-default-props": "off",
     "import/extensions": [
       "error",
