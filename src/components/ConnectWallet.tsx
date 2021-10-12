@@ -56,10 +56,9 @@ const ConnectWallet = ({ open, setOpen }: { open: boolean; setOpen: any }) => {
             );
             if (connectTypes.length > 0) {
               return connectTypes.map((connectType) => (
-                <div>
+                <div key={`connect-${connectType}`}>
                   <Button
                     type="button"
-                    key={`connect-${connectType}`}
                     style={{ width: `100%`, marginBottom: '20px' }}
                     onClick={() => {
                       connect(connectType);

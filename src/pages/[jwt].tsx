@@ -21,6 +21,7 @@ export default function Home() {
             <a
               href="https://guide.lunarassistant.com"
               target="_blank"
+              rel="noreferrer"
               style={{ color: '#0070f3', textDecoration: 'none' }}
             >
               Lunar Assistant!
