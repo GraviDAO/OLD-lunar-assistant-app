@@ -5,7 +5,6 @@ export default function Home() {
     <div>
       <main
         style={{
-          padding: '30px',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -23,7 +22,7 @@ export default function Home() {
           <Typography variant="h5" style={{ textAlign: 'center' }}>
             <a
               href="https://guide.lunarassistant.com"
-              style={{ color: 'black' }}
+              style={{ color: 'black', textDecoration: 'none' }}
             >
               Learn More
             </a>
