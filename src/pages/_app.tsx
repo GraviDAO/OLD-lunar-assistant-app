@@ -1,5 +1,4 @@
 import { defaultNetwork, walletConnectChainIds } from '@/constants';
-import '@/styles/global.css';
 import { createTheme, ThemeProvider } from '@material-ui/core';
 import {
   StaticWalletProvider,

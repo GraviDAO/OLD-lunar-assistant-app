@@ -19,6 +19,7 @@ import {
 } from '@terra-money/wallet-provider';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import ConnectWallet from './ConnectWallet';
 
 interface OnboardingCardProps {
   number: string;
@@ -58,7 +59,7 @@ const OnboardingCard = ({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '50px',
-        height: '300px',
+        minHeight: '300px',
         border: getBorder(),
       }}
     >
@@ -98,8 +99,9 @@ const OnboardingCard = ({
         variant="contained"
         color="primary"
         style={{
-          visibility: status === 1 ? 'visible' : 'hidden',
+          visibility: buttonText !== '' ? 'visible' : 'hidden',
           fontSize: '20px',
+          marginTop: '20px',
         }}
         onClick={onClick}
       >
@@ -132,7 +134,7 @@ const WelcomeCards = ({
   } = useWallet();
   const [loading, setLoading] = useState(false);
 
-  const [open, setOpen] = React.useState(false);
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 
   const connectedWallet = useConnectedWallet();
   const router = useRouter();
@@ -143,36 +145,45 @@ const WelcomeCards = ({
       return;
     }
 
-    setOpen(false);
+    setSnackbarOpen(false);
   };
 
+  const [open, setOpen] = useState(false);
+
   return (
-    <div>
-      <Grid container spacing={8} style={{ padding: '100px 250px' }}>
-        <Grid item xs={6}>
+    <div style={{ margin: '100px 200px' }}>
+      <Grid container spacing={8}>
+        <Grid item xs={12} md={6}>
           <OnboardingCard
             number="1"
             title="Connect Your Wallet"
             caption="Connect the wallet you want to link to your discord account."
-            buttonText="Connect Wallet"
+            buttonText={
+              status === WalletStatus.WALLET_CONNECTED
+                ? 'Disconnect Wallet'
+                : 'Connect Wallet'
+            }
             status={status === WalletStatus.WALLET_CONNECTED ? 2 : 1}
-            onClick={() => {
-              const chromeConnectType = availableConnectTypes.find(
-                (connectType) => connectType === 'CHROME_EXTENSION',
-              );
-              if (chromeConnectType) {
-                connect(chromeConnectType);
-              }
-            }}
+            onClick={
+              status === WalletStatus.WALLET_CONNECTED
+                ? () => {
+                    disconnect();
+                  }
+                : () => {
+                    setOpen(true);
+                  }
+            }
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <OnboardingCard
             number="2"
             title="Sign A Transaction"
             caption="Sign a transaction that will prove ownership of your wallet. It will not cost you anything."
-            buttonText="Sign Transaction"
+            buttonText={
+              status === WalletStatus.WALLET_CONNECTED ? 'Sign Transaction' : ''
+            }
             status={
               linkComplete
                 ? 2
@@ -208,7 +219,7 @@ const WelcomeCards = ({
                 // indicate that the wallet has been linked successfully
                 setLoading(false);
                 setLinkComplete(true);
-                setOpen(true);
+                setSnackbarOpen(true);
               }
             }}
           />
@@ -226,12 +237,17 @@ const WelcomeCards = ({
           <CircularProgress />
         </div>
       )}
-      <Snackbar open={open} autoHideDuration={10000} onClose={handleClose}>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={10000}
+        onClose={handleClose}
+      >
         <Alert onClose={handleClose} severity="success">
           Wallet linked successfully! Run '/lunar-view-roles' in Discord to see
           what roles you have been granted!
         </Alert>
       </Snackbar>
+      <ConnectWallet open={open} setOpen={setOpen} />
     </div>
   );
 };
