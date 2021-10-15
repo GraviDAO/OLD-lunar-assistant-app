@@ -205,21 +205,36 @@ const WelcomeCards = ({
                 });
                 setLoading(true);
 
-                // send the transaction to the backend
-                await LunarApi.post('/api/lunarVerify', {
-                  wallet_address: connectedWallet.walletAddress,
-                  public_key: verificationTransaction.result.public_key,
-                  signature: verificationTransaction.result.signature,
-                  stdSignMsgData: JSON.stringify(
-                    verificationTransaction.result.stdSignMsgData,
-                  ),
-                  jwt: jwtString,
-                });
+                try {
+                  // send the transaction to the backend
+                  await LunarApi.post('/api/lunarVerify', {
+                    wallet_address: connectedWallet.walletAddress,
+                    public_key: verificationTransaction.result.public_key,
+                    signature: verificationTransaction.result.signature,
+                    stdSignMsgData: JSON.stringify(
+                      verificationTransaction.result.stdSignMsgData,
+                    ),
+                    jwt: jwtString,
+                  });
 
-                // indicate that the wallet has been linked successfully
-                setLoading(false);
-                setLinkComplete(true);
-                setSnackbarOpen(true);
+                  // indicate that the wallet has been linked successfully
+                  setLoading(false);
+                  setLinkComplete(true);
+                  setSnackbarOpen(true);
+                } catch (_error) {
+                  setLoading(false);
+                  const error = _error as any;
+                  if (error.response) {
+                    // Request made and server responded
+                    alert(error.response.data.errorMsg);
+                  } else if (error.request) {
+                    // The request was made but no response was received
+                    alert(error.request);
+                  } else {
+                    // Something happened in setting up the request that triggered an Error
+                    alert('Error' + error.message);
+                  }
+                }
               }
             }}
           />
