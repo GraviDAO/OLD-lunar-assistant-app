@@ -203,19 +203,27 @@ const WelcomeCards = ({
                     ),
                   ],
                 });
+
                 setLoading(true);
 
                 try {
-                  // send the transaction to the backend
-                  await LunarApi.post('/api/lunarVerify', {
+                  const body = {
                     wallet_address: connectedWallet.walletAddress,
-                    public_key: verificationTransaction.result.public_key,
+                    public_key:
+                      typeof verificationTransaction.result.public_key ===
+                      'object'
+                        ? (verificationTransaction.result.public_key as any)
+                            .value
+                        : verificationTransaction.result.public_key,
                     signature: verificationTransaction.result.signature,
                     stdSignMsgData: JSON.stringify(
                       verificationTransaction.result.stdSignMsgData,
                     ),
                     jwt: jwtString,
-                  });
+                  };
+
+                  // send the transaction to the backend
+                  await LunarApi.post('/api/lunarVerify', body);
 
                   // indicate that the wallet has been linked successfully
                   setLoading(false);
