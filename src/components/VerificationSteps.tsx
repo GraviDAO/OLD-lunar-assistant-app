@@ -240,7 +240,7 @@ const WelcomeCards = ({
                     alert(error.request);
                   } else {
                     // Something happened in setting up the request that triggered an Error
-                    alert('Error' + error.message);
+                    alert(`Error ${error.message}`);
                   }
                 }
               }
