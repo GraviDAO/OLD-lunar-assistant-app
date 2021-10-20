@@ -242,19 +242,18 @@ const WelcomeCards = ({
                   if (error instanceof UserDenied) {
                     alert('User Denied');
                   } else if (error instanceof CreateTxFailed) {
-                    alert('Create Tx Failed: ' + error.message);
+                    alert(`Create Tx Failed: ${error.message}`);
                   } else if (error instanceof TxFailed) {
-                    alert('Tx Failed: ' + error.message);
+                    alert(`Tx Failed: ${error.message}`);
                   } else if (error instanceof Timeout) {
                     alert('Timeout');
                   } else if (error instanceof TxUnspecifiedError) {
-                    alert('Unspecified Error: ' + error.message);
+                    alert(`Unspecified Error: ${error.message}`);
                   } else {
                     alert(
-                      'Unknown Error: ' +
-                        (error instanceof Error
-                          ? error.message
-                          : String(error)),
+                      `Unknown Error: ${
+                        error instanceof Error ? error.message : String(error)
+                      }`,
                     );
                   }
                 }
