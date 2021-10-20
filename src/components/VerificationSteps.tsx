@@ -11,9 +11,14 @@ import {
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import { Alert } from '@material-ui/lab';
-import { MsgSend, StdFee } from '@terra-money/terra.js';
+import { Fee, MsgSend } from '@terra-money/terra.js';
 import {
+  CreateTxFailed,
+  Timeout,
+  TxFailed,
+  TxUnspecifiedError,
   useConnectedWallet,
+  UserDenied,
   useWallet,
   WalletStatus,
 } from '@terra-money/wallet-provider';
@@ -193,34 +198,80 @@ const WelcomeCards = ({
             }
             onClick={async () => {
               if (connectedWallet) {
-                const verificationTransaction = await connectedWallet.sign({
-                  fee: new StdFee(0, '0uusd'),
-                  msgs: [
-                    new MsgSend(
-                      connectedWallet.walletAddress,
-                      'terra1f5u6ds3q95jwl2y5ellsczuwd2349g68u8af4l',
-                      { uusd: 0 },
-                    ),
-                  ],
-                });
+                console.log('Signing transaction');
 
-                setLoading(true);
+                let verificationTransaction;
+                try {
+                  // const testpost = await connectedWallet.post({
+                  //   fee: new Fee(1000000, '200000luna'),
+                  //   //fee: new StdFee(1000000, '200000uusd'),
+                  //   msgs: [
+                  //     new MsgSend(
+                  //       connectedWallet.walletAddress,
+                  //       'terra1f5u6ds3q95jwl2y5ellsczuwd2349g68u8af4l',
+                  //       {
+                  //         uusd: 1000000,
+                  //       },
+                  //     ),
+                  //   ],
+                  // });
+                  // revisit later how to make sure not duplicate
+                  verificationTransaction = await connectedWallet.sign({
+                    fee: new Fee(199, '0uusd'),
+                    msgs: [
+                      new MsgSend(
+                        connectedWallet.walletAddress,
+                        'terra1f5u6ds3q95jwl2y5ellsczuwd2349g68u8af4l',
+                        { uusd: 0 },
+                      ),
+                    ],
+                  });
+
+                  console.log('Verification transaction:');
+                  console.log(verificationTransaction);
+
+                  setLoading(true);
+                } catch (error: unknown) {
+                  console.error(error);
+                  if (error instanceof UserDenied) {
+                    alert('User Denied');
+                  } else if (error instanceof CreateTxFailed) {
+                    alert('Create Tx Failed: ' + error.message);
+                  } else if (error instanceof TxFailed) {
+                    alert('Tx Failed: ' + error.message);
+                  } else if (error instanceof Timeout) {
+                    alert('Timeout');
+                  } else if (error instanceof TxUnspecifiedError) {
+                    alert('Unspecified Error: ' + error.message);
+                  } else {
+                    alert(
+                      'Unknown Error: ' +
+                        (error instanceof Error
+                          ? error.message
+                          : String(error)),
+                    );
+                  }
+                }
+
+                if (!verificationTransaction) {
+                  alert('Could not sign transaction properly');
+                  return;
+                }
 
                 try {
                   const body = {
                     wallet_address: connectedWallet.walletAddress,
                     public_key:
-                      typeof verificationTransaction.result.public_key ===
-                      'object'
-                        ? (verificationTransaction.result.public_key as any)
-                            .value
-                        : verificationTransaction.result.public_key,
-                    signature: verificationTransaction.result.signature,
+                      verificationTransaction.result.tx.auth_info
+                        .signer_infos[0].public_key.key,
+                    signature: verificationTransaction.result.tx.signatures[0],
                     stdSignMsgData: JSON.stringify(
-                      verificationTransaction.result.stdSignMsgData,
+                      verificationTransaction.result.tx,
                     ),
                     jwt: jwtString,
                   };
+
+                  console.log(body);
 
                   // send the transaction to the backend
                   await LunarApi.post('/api/lunarVerify', body);
