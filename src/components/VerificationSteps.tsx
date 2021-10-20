@@ -11,7 +11,13 @@ import {
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import { Alert } from '@material-ui/lab';
-import { Fee, MsgSend } from '@terra-money/terra.js';
+import {
+  Fee,
+  LegacyAminoMultisigPublicKey,
+  MsgSend,
+  SimplePublicKey,
+  ValConsPublicKey,
+} from '@terra-money/terra.js';
 import {
   CreateTxFailed,
   Timeout,
@@ -217,7 +223,7 @@ const WelcomeCards = ({
                   // });
                   // revisit later how to make sure not duplicate
                   verificationTransaction = await connectedWallet.sign({
-                    fee: new Fee(199, '0uusd'),
+                    fee: new Fee(0, '0uusd'),
                     msgs: [
                       new MsgSend(
                         connectedWallet.walletAddress,
@@ -259,11 +265,20 @@ const WelcomeCards = ({
                 }
 
                 try {
+                  const pub_key =
+                    verificationTransaction.result.tx.auth_info.signer_infos[0]
+                      .public_key;
                   const body = {
                     wallet_address: connectedWallet.walletAddress,
                     public_key:
-                      verificationTransaction.result.tx.auth_info
-                        .signer_infos[0].public_key.key,
+                      pub_key instanceof SimplePublicKey
+                        ? pub_key.key
+                        : pub_key instanceof LegacyAminoMultisigPublicKey
+                        ? pub_key.pubkeys[0]
+                        : pub_key instanceof ValConsPublicKey
+                        ? pub_key.key
+                        : '',
+
                     signature: verificationTransaction.result.tx.signatures[0],
                     stdSignMsgData: JSON.stringify(
                       verificationTransaction.result.tx,
