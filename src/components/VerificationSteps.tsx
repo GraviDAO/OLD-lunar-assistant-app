@@ -1,4 +1,5 @@
 import { LunarApi } from '@/services/LunarApi';
+import { LunarVerifyRequest } from '@/shared/requestTypes';
 import {
   Button,
   Card,
@@ -12,17 +13,8 @@ import {
 import CheckIcon from '@material-ui/icons/Check';
 import { Alert } from '@material-ui/lab';
 import {
-  Fee,
-  LegacyAminoMultisigPublicKey,
-  MsgSend,
-  SimplePublicKey,
-  ValConsPublicKey,
-} from '@terra-money/terra.js';
-import {
-  CreateTxFailed,
+  SignBytesFailed,
   Timeout,
-  TxFailed,
-  TxUnspecifiedError,
   useConnectedWallet,
   UserDenied,
   useWallet,
@@ -222,16 +214,9 @@ const WelcomeCards = ({
                   //   ],
                   // });
                   // revisit later how to make sure not duplicate
-                  verificationTransaction = await connectedWallet.sign({
-                    fee: new Fee(0, '0uusd'),
-                    msgs: [
-                      new MsgSend(
-                        connectedWallet.walletAddress,
-                        'terra1f5u6ds3q95jwl2y5ellsczuwd2349g68u8af4l',
-                        { uusd: 0 },
-                      ),
-                    ],
-                  });
+                  verificationTransaction = await connectedWallet.signBytes(
+                    Buffer.from('LunarAssistant'),
+                  );
 
                   console.log('Verification transaction:');
                   console.log(verificationTransaction);
@@ -241,14 +226,10 @@ const WelcomeCards = ({
                   console.error(error);
                   if (error instanceof UserDenied) {
                     alert('User Denied');
-                  } else if (error instanceof CreateTxFailed) {
-                    alert(`Create Tx Failed: ${error.message}`);
-                  } else if (error instanceof TxFailed) {
-                    alert(`Tx Failed: ${error.message}`);
+                  } else if (error instanceof SignBytesFailed) {
+                    alert(`Sign bytes failed: ${error.message}`);
                   } else if (error instanceof Timeout) {
                     alert('Timeout');
-                  } else if (error instanceof TxUnspecifiedError) {
-                    alert(`Unspecified Error: ${error.message}`);
                   } else {
                     alert(
                       `Unknown Error: ${
@@ -264,25 +245,12 @@ const WelcomeCards = ({
                 }
 
                 try {
-                  const pub_key =
-                    verificationTransaction.result.tx.auth_info.signer_infos[0]
-                      .public_key;
-                  const body = {
-                    wallet_address: connectedWallet.walletAddress,
-                    public_key:
-                      pub_key instanceof SimplePublicKey
-                        ? pub_key.key
-                        : pub_key instanceof LegacyAminoMultisigPublicKey
-                        ? pub_key.pubkeys[0]
-                        : pub_key instanceof ValConsPublicKey
-                        ? pub_key.key
-                        : '',
-
-                    signature: verificationTransaction.result.tx.signatures[0],
-                    stdSignMsgData: JSON.stringify(
-                      verificationTransaction.result.tx,
-                    ),
-                    jwt: jwtString,
+                  const body: LunarVerifyRequest = {
+                    signBytesResult: verificationTransaction,
+                    walletAddress: connectedWallet.walletAddress,
+                    jwt: Array.isArray(jwtString)
+                      ? jwtString.join()
+                      : jwtString || '',
                   };
 
                   console.log(body);

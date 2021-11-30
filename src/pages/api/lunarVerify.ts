@@ -1,8 +1,7 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-// import Cors from 'cors';
 import { JWT_SECRET } from '@/constants';
 import db from '@/services/firebaseAdmin';
-import { SHA256 } from 'jscrypto/SHA256';
+import { LunarVerifyRequest } from '@/shared/requestTypes';
+import { verifyBytes } from '@terra-money/wallet-provider';
 import jwt from 'jsonwebtoken';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -19,25 +18,10 @@ export default async function handler(
     console.log(req.body);
     const verificationTransaction = req.body as LunarVerifyRequest;
 
-    // get the signature buffer
-    const sigBuffer = Buffer.from(verificationTransaction.signature, 'base64');
-
-    // get the hash buffer
-    const hashBuffer = Buffer.from(
-      SHA256.hash(verificationTransaction.stdSignMsgData.toString()).toString(),
-      'hex',
+    const verified = verifyBytes(
+      Buffer.from('LunarAssistant'),
+      verificationTransaction.signBytesResult.result,
     );
-
-    // get the public key buffer
-    const pubBuffer = Buffer.from(verificationTransaction.public_key, 'base64');
-
-    // verify the transaction is legit
-    // const verified = secp256k1.ecdsaVerify(
-    //   Uint8Array.from(sigBuffer),
-    //   Uint8Array.from(hashBuffer),
-    //   Uint8Array.from(pubBuffer),
-    // );
-    const verified = true;
 
     if (!verified) {
       return res.status(400).json({
@@ -54,14 +38,14 @@ export default async function handler(
 
       const usersAlreadyRegisteredWithWallet = await db
         .collection('users')
-        .where('wallet', '==', verificationTransaction.wallet_address)
+        .where('wallet', '==', verificationTransaction.walletAddress)
         .get();
 
       if (
         !usersAlreadyRegisteredWithWallet.empty &&
         usersAlreadyRegisteredWithWallet.docs[0].id !== userID
       ) {
-        // there already exists another user with this wallet address
+        // There already exists another user with this wallet address
         return res.status(400).json({
           result: 'failure',
           errorMsg:
@@ -70,10 +54,10 @@ export default async function handler(
       }
 
       const user: User = {
-        wallet: verificationTransaction.wallet_address,
+        wallet: verificationTransaction.walletAddress,
       };
 
-      // save the wallet to the user
+      // Save the wallet to the user
       await db.collection('users').doc(userID).set(user);
     } catch {
       return res.status(400).json({

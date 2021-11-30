@@ -14,6 +14,7 @@ const ConnectWallet = ({ open, setOpen }: { open: boolean; setOpen: any }) => {
     network,
     wallets,
     availableConnectTypes,
+    availableConnections,
     availableInstallTypes,
     connect,
     install,
@@ -52,26 +53,23 @@ const ConnectWallet = ({ open, setOpen }: { open: boolean; setOpen: any }) => {
       <DialogContent>
         <>
           {(() => {
-            const connectTypes = availableConnectTypes.filter((connectType) =>
-              [`CHROME_EXTENSION`].includes(connectType),
+            const connectTypes = availableConnections.filter(
+              ({ type, identifier, name, icon }) => type === `EXTENSION`,
             );
             if (connectTypes.length > 0) {
-              return connectTypes.map((connectType) => (
-                <div key={`connect-${connectType}`}>
+              return connectTypes.map(({ type, identifier, name, icon }) => (
+                <div key={`connect-${name}`}>
                   <Button
                     type="button"
                     style={{ width: `100%`, marginBottom: '20px' }}
                     onClick={() => {
-                      connect(connectType);
+                      connect(type);
                       setOpen(false);
                     }}
                     variant="contained"
                     color="primary"
                   >
-                    Connect{` `}
-                    {connectType === `CHROME_EXTENSION`
-                      ? `Terra Station Extension`
-                      : `Terra Station Mobile`}
+                    {`Connect ${name}`}
                   </Button>
                 </div>
               ));
