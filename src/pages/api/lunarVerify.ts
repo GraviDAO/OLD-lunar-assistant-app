@@ -1,6 +1,8 @@
 import { JWT_SECRET } from '@/constants';
 import db from '@/services/firebaseAdmin';
 import { LunarVerifyRequest } from '@/shared/requestTypes';
+import { SignBytesResult } from '@terra-dev/wallet-types';
+import { PublicKey } from '@terra-money/terra.js';
 import { verifyBytes } from '@terra-money/wallet-provider';
 import jwt from 'jsonwebtoken';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -15,12 +17,22 @@ export default async function handler(
   res: NextApiResponse<Data>,
 ) {
   if (req.method === 'POST') {
-    console.log(req.body);
-    const verificationTransaction = req.body as LunarVerifyRequest;
+    const lunarVerifyRequest = req.body as LunarVerifyRequest;
+
+    const publicKey = PublicKey.fromData(lunarVerifyRequest.publicKey);
+    const signature = Buffer.from(lunarVerifyRequest.signature, 'base64');
+
+    const signBytesResult: SignBytesResult['result'] = {
+      public_key: publicKey,
+      signature,
+      recid: lunarVerifyRequest.recid,
+    };
+
+    const walletAddress = publicKey.address();
 
     const verified = verifyBytes(
       Buffer.from('LunarAssistant'),
-      verificationTransaction.signBytesResult.result,
+      signBytesResult,
     );
 
     if (!verified) {
@@ -32,13 +44,13 @@ export default async function handler(
 
     try {
       const { userID } = jwt.verify(
-        verificationTransaction.jwt,
+        lunarVerifyRequest.jwt,
         JWT_SECRET,
       ) as jwt.JwtPayload;
 
       const usersAlreadyRegisteredWithWallet = await db
         .collection('users')
-        .where('wallet', '==', verificationTransaction.walletAddress)
+        .where('wallet', '==', walletAddress)
         .get();
 
       if (
@@ -54,7 +66,7 @@ export default async function handler(
       }
 
       const user: User = {
-        wallet: verificationTransaction.walletAddress,
+        wallet: walletAddress,
       };
 
       // Save the wallet to the user

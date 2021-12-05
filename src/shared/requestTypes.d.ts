@@ -1,7 +1,6 @@
-import { SignBytesResult } from '@terra-money/use-wallet';
-
 export interface LunarVerifyRequest {
-  signBytesResult: SignBytesResult;
-  walletAddress: string;
+  recid: any;
+  signature: string;
+  publicKey: any;
   jwt: string;
 }

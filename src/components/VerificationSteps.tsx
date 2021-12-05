@@ -198,28 +198,12 @@ const WelcomeCards = ({
               if (connectedWallet) {
                 console.log('Signing transaction');
 
-                let verificationTransaction;
+                let signBytesResult;
                 try {
-                  // const testpost = await connectedWallet.post({
-                  //   fee: new Fee(1000000, '200000luna'),
-                  //   //fee: new StdFee(1000000, '200000uusd'),
-                  //   msgs: [
-                  //     new MsgSend(
-                  //       connectedWallet.walletAddress,
-                  //       'terra1f5u6ds3q95jwl2y5ellsczuwd2349g68u8af4l',
-                  //       {
-                  //         uusd: 1000000,
-                  //       },
-                  //     ),
-                  //   ],
-                  // });
                   // revisit later how to make sure not duplicate
-                  verificationTransaction = await connectedWallet.signBytes(
+                  signBytesResult = await connectedWallet.signBytes(
                     Buffer.from('LunarAssistant'),
                   );
-
-                  console.log('Verification transaction:');
-                  console.log(verificationTransaction);
 
                   setLoading(true);
                 } catch (error: unknown) {
@@ -239,21 +223,25 @@ const WelcomeCards = ({
                   }
                 }
 
-                if (!verificationTransaction) {
+                if (!signBytesResult) {
                   alert('Could not sign transaction properly');
                   return;
                 }
 
+                const publicKeyData =
+                  signBytesResult.result.public_key?.toData();
+
                 try {
                   const body: LunarVerifyRequest = {
-                    signBytesResult: verificationTransaction,
-                    walletAddress: connectedWallet.walletAddress,
+                    recid: signBytesResult.result.recid,
+                    signature: Buffer.from(
+                      signBytesResult.result.signature,
+                    ).toString('base64'),
+                    publicKey: publicKeyData,
                     jwt: Array.isArray(jwtString)
                       ? jwtString.join()
                       : jwtString || '',
                   };
-
-                  console.log(body);
 
                   // send the transaction to the backend
                   await LunarApi.post('/api/lunarVerify', body);
