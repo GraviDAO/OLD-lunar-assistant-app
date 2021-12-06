@@ -195,7 +195,7 @@ const WelcomeCards = ({
                 : 'Post A Transaction'
             }
             caption={
-              connectedWallet?.connectType === 'WALLETCONNECT'
+              connectedWallet?.connectType === 'EXTENSION'
                 ? 'Sign a transaction that will prove ownership of your wallet. It will not cost you anything.'
                 : 'Post a transaction that will prove ownership of your wallet. It will cost a small gas fee.'
             }
