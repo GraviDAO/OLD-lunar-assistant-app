@@ -1,5 +1,8 @@
 import { LunarApi } from '@/services/LunarApi';
-import { LunarVerifyRequest } from '@/shared/requestTypes';
+import {
+  LunarLinkPostRequest,
+  LunarLinkSignRequest,
+} from '@/shared/requestTypes';
 import {
   Button,
   Card,
@@ -12,9 +15,13 @@ import {
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import { Alert } from '@material-ui/lab';
+import { Fee, MsgSend } from '@terra-money/terra.js';
 import {
+  CreateTxFailed,
   SignBytesFailed,
   Timeout,
+  TxFailed,
+  TxUnspecifiedError,
   useConnectedWallet,
   UserDenied,
   useWallet,
@@ -182,10 +189,22 @@ const WelcomeCards = ({
         <Grid item xs={12} md={6}>
           <OnboardingCard
             number="2"
-            title="Sign A Transaction"
-            caption="Sign a transaction that will prove ownership of your wallet. It will not cost you anything."
+            title={
+              connectedWallet?.connectType === 'EXTENSION'
+                ? 'Sign A Transaction'
+                : 'Post A Transaction'
+            }
+            caption={
+              connectedWallet?.connectType === 'WALLETCONNECT'
+                ? 'Sign a transaction that will prove ownership of your wallet. It will not cost you anything.'
+                : 'Post a transaction that will prove ownership of your wallet. It will cost a small gas fee.'
+            }
             buttonText={
-              status === WalletStatus.WALLET_CONNECTED ? 'Sign Transaction' : ''
+              status === WalletStatus.WALLET_CONNECTED
+                ? connectedWallet?.connectType === 'EXTENSION'
+                  ? 'Sign Transaction'
+                  : 'Post Transaction'
+                : ''
             }
             status={
               linkComplete
@@ -195,7 +214,11 @@ const WelcomeCards = ({
                 : 0
             }
             onClick={async () => {
-              if (connectedWallet) {
+              console.log(connectedWallet?.connectType);
+              if (
+                connectedWallet &&
+                connectedWallet.connectType === 'EXTENSION'
+              ) {
                 console.log('Signing transaction');
 
                 let signBytesResult;
@@ -207,6 +230,7 @@ const WelcomeCards = ({
 
                   setLoading(true);
                 } catch (error: unknown) {
+                  setLoading(false);
                   console.error(error);
                   if (error instanceof UserDenied) {
                     alert('User Denied');
@@ -232,7 +256,7 @@ const WelcomeCards = ({
                   signBytesResult.result.public_key?.toData();
 
                 try {
-                  const body: LunarVerifyRequest = {
+                  const body: LunarLinkSignRequest = {
                     recid: signBytesResult.result.recid,
                     signature: Buffer.from(
                       signBytesResult.result.signature,
@@ -244,15 +268,91 @@ const WelcomeCards = ({
                   };
 
                   // send the transaction to the backend
-                  await LunarApi.post('/api/lunarVerify', body);
+                  await LunarApi.post('/api/lunarVerifySign', body);
 
                   // indicate that the wallet has been linked successfully
                   setLoading(false);
                   setLinkComplete(true);
                   setSnackbarOpen(true);
-                } catch (_error) {
+                } catch (error: any) {
                   setLoading(false);
-                  const error = _error as any;
+                  if (error.response) {
+                    // Request made and server responded
+                    alert(error.response.data.errorMsg);
+                  } else if (error.request) {
+                    // The request was made but no response was received
+                    alert(error.request);
+                  } else {
+                    // Something happened in setting up the request that triggered an Error
+                    alert(`Error ${error.message}`);
+                  }
+                }
+              } else if (
+                connectedWallet &&
+                connectedWallet.connectType === 'WALLETCONNECT'
+              ) {
+                console.log('Posting a transaction');
+
+                let txResult;
+                try {
+                  txResult = await connectedWallet.post({
+                    fee: new Fee(100000, '20000uusd'),
+                    msgs: [
+                      new MsgSend(
+                        connectedWallet.walletAddress,
+                        'terra1qxzjv7spze07t4vjwjp3q2cppm0qx5esqvngdx',
+                        {
+                          uusd: 1,
+                        },
+                      ),
+                    ],
+                  });
+                } catch (error: unknown) {
+                  setLoading(false);
+                  console.error(error);
+                  if (error instanceof UserDenied) {
+                    alert('User Denied');
+                  } else if (error instanceof CreateTxFailed) {
+                    alert(`Create Tx Failed: ${error.message}`);
+                  } else if (error instanceof TxFailed) {
+                    alert(`Tx Failed: ${error.message}`);
+                  } else if (error instanceof Timeout) {
+                    alert('Timeout');
+                  } else if (error instanceof TxUnspecifiedError) {
+                    alert(`Unspecified Error: ${error.message}`);
+                  } else {
+                    alert(
+                      `Unknown Error: ${
+                        error instanceof Error ? error.message : String(error)
+                      }`,
+                    );
+                  }
+                }
+
+                console.log(txResult);
+
+                if (!txResult) {
+                  alert('Could not post transaction properly');
+                  return;
+                }
+                // setTxResult(nextTxResult);
+                const body: LunarLinkPostRequest = {
+                  txhash: txResult.result.txhash,
+                  jwt: Array.isArray(jwtString)
+                    ? jwtString.join()
+                    : jwtString || '',
+                };
+
+                try {
+                  // send the transaction to the backend
+                  await LunarApi.post('/api/lunarVerifyPost', body);
+
+                  // indicate that the wallet has been linked successfully
+                  setLoading(false);
+                  setLinkComplete(true);
+                  setSnackbarOpen(true);
+                } catch (error: any) {
+                  setLoading(false);
                   if (error.response) {
                     // Request made and server responded
                     alert(error.response.data.errorMsg);

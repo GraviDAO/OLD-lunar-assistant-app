@@ -54,7 +54,8 @@ const ConnectWallet = ({ open, setOpen }: { open: boolean; setOpen: any }) => {
         <>
           {(() => {
             const connectTypes = availableConnections.filter(
-              ({ type, identifier, name, icon }) => type === `EXTENSION`,
+              ({ type, identifier, name, icon }) =>
+                type === `EXTENSION` || type === `WALLETCONNECT`,
             );
             if (connectTypes.length > 0) {
               return connectTypes.map(({ type, identifier, name, icon }) => (
@@ -69,7 +70,9 @@ const ConnectWallet = ({ open, setOpen }: { open: boolean; setOpen: any }) => {
                     variant="contained"
                     color="primary"
                   >
-                    {`Connect ${name}`}
+                    {`Connect ${
+                      type === `EXTENSION` ? 'Terra Station' : 'Mobile'
+                    } ${type === `EXTENSION` ? '(Free)' : '(Small Gas Fee)'}`}
                   </Button>
                 </div>
               ));

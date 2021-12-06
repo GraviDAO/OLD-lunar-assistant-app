@@ -1,9 +1,7 @@
 import { JWT_SECRET } from '@/constants';
 import db from '@/services/firebaseAdmin';
-import { LunarVerifyRequest } from '@/shared/requestTypes';
-import { SignBytesResult } from '@terra-dev/wallet-types';
-import { PublicKey } from '@terra-money/terra.js';
-import { verifyBytes } from '@terra-money/wallet-provider';
+import { LunarLinkPostRequest } from '@/shared/requestTypes';
+import { LCDClient, TxInfo } from '@terra-money/terra.js';
 import jwt from 'jsonwebtoken';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -17,30 +15,38 @@ export default async function handler(
   res: NextApiResponse<Data>,
 ) {
   if (req.method === 'POST') {
-    const lunarVerifyRequest = req.body as LunarVerifyRequest;
+    const terra = new LCDClient({
+      URL: 'https://lcd.terra.dev',
+      chainID: 'columbus-5',
+    });
+    const lunarVerifyRequest = req.body as LunarLinkPostRequest;
 
-    const publicKey = PublicKey.fromData(lunarVerifyRequest.publicKey);
-    const signature = Buffer.from(lunarVerifyRequest.signature, 'base64');
+    let tx: TxInfo;
 
-    const signBytesResult: SignBytesResult['result'] = {
-      public_key: publicKey,
-      signature,
-      recid: lunarVerifyRequest.recid,
-    };
-
-    const walletAddress = publicKey.address();
-
-    const verified = verifyBytes(
-      Buffer.from('LunarAssistant'),
-      signBytesResult,
-    );
-
-    if (!verified) {
+    try {
+      tx = await terra.tx.txInfo(lunarVerifyRequest.txhash);
+    } catch {
       return res.status(400).json({
         result: 'failure',
-        errorMsg: 'Could not verify signed transaction as authentic',
+        errorMsg: 'Could not find transaction.',
       });
     }
+
+    if (
+      (Math.floor(Date.now() / 1000) -
+        Math.floor(Date.parse(tx.timestamp) / 1000)) /
+        60 >
+      1
+    ) {
+      return res.status(400).json({
+        result: 'failure',
+        errorMsg: 'Transaction took place too long ago. Please try again.',
+      });
+    }
+
+    const walletAddress = tx.tx.auth_info.signer_infos[0].public_key.address();
+    console.log(tx.tx);
+    console.log(walletAddress);
 
     try {
       const { userID } = jwt.verify(
