@@ -2,6 +2,7 @@ export interface LunarLinkSignRequest {
   recid: any;
   signature: string;
   publicKey: any;
+  message: string;
   jwt: string;
 }
 

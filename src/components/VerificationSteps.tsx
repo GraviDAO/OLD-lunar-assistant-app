@@ -18,7 +18,6 @@ import { Alert } from '@material-ui/lab';
 import { Fee, MsgSend } from '@terra-money/terra.js';
 import {
   CreateTxFailed,
-  SignBytesFailed,
   Timeout,
   TxFailed,
   TxUnspecifiedError,
@@ -224,9 +223,19 @@ const WelcomeCards = ({
                 let signBytesResult;
                 try {
                   // revisit later how to make sure not duplicate
-                  signBytesResult = await connectedWallet.signBytes(
-                    Buffer.from('LunarAssistant'),
-                  );
+                  // signBytesResult = await connectedWallet.signBytes(
+                  //   Buffer.from('LunarAssistant'),
+                  // );
+                  signBytesResult = await connectedWallet.sign({
+                    fee: new Fee(0, '0uusd'),
+                    msgs: [
+                      new MsgSend(
+                        connectedWallet.walletAddress,
+                        'terra1f5u6ds3q95jwl2y5ellsczuwd2349g68u8af4l',
+                        { uusd: 0 },
+                      ),
+                    ],
+                  });
 
                   setLoading(true);
                 } catch (error: unknown) {
@@ -234,10 +243,12 @@ const WelcomeCards = ({
                   console.error(error);
                   if (error instanceof UserDenied) {
                     alert('User Denied');
-                  } else if (error instanceof SignBytesFailed) {
-                    alert(`Sign bytes failed: ${error.message}`);
-                  } else if (error instanceof Timeout) {
-                    alert('Timeout');
+                  } else if (error instanceof CreateTxFailed) {
+                    alert(`Create tx failed: ${error.message}`);
+                  } else if (error instanceof TxFailed) {
+                    alert(`Tx failed: ${error.message}`);
+                  } else if (error instanceof TxUnspecifiedError) {
+                    alert(`Tx unspecified ${error.message}`);
                   } else {
                     alert(
                       `Unknown Error: ${
@@ -252,16 +263,34 @@ const WelcomeCards = ({
                   return;
                 }
 
+                // const publicKeyData =
+                //   signBytesResult.result.public_key?.toData();
+
+                // const recid = signBytesResult.result.recid;
+
+                // const signature = Buffer.from(
+                //       signBytesResult.result.signature,
+                //     ).toString('base64');
+
+                console.log(signBytesResult);
+
                 const publicKeyData =
-                  signBytesResult.result.public_key?.toData();
+                  signBytesResult.result.auth_info.signer_infos[0].public_key?.toData();
+
+                const recid = 0;
+
+                const signature = Buffer.from(
+                  signBytesResult.result.signatures[0],
+                ).toString('base64');
 
                 try {
                   const body: LunarLinkSignRequest = {
-                    recid: signBytesResult.result.recid,
-                    signature: Buffer.from(
-                      signBytesResult.result.signature,
-                    ).toString('base64'),
+                    recid,
+                    signature,
                     publicKey: publicKeyData,
+                    message: JSON.stringify(
+                      signBytesResult.result.body.messages[0],
+                    ),
                     jwt: Array.isArray(jwtString)
                       ? jwtString.join()
                       : jwtString || '',
