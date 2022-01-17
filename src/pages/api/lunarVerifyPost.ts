@@ -2,6 +2,7 @@ import { JWT_SECRET } from '@/constants';
 import db from '@/services/firebaseAdmin';
 import { LunarLinkPostRequest } from '@/shared/requestTypes';
 import { LCDClient, TxInfo } from '@terra-money/terra.js';
+import firebase from 'firebase-admin';
 import jwt from 'jsonwebtoken';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -77,7 +78,7 @@ export default async function handler(
 
       const statsRef = db.collection('root').doc('stats');
       const batch = db.batch();
-      const increment = FirebaseFirestore.FieldValue.increment(1);
+      const increment = firebase.firestore.FieldValue.increment(1);
 
       batch.set(db.collection('users').doc(userID), user);
 
