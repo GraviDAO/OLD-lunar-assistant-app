@@ -86,6 +86,7 @@ export default async function handler(
         batch.set(statsRef, { userCount: increment }, { merge: true });
       }
 
+      // Save the changes to the db
       await batch.commit();
     } catch {
       return res.status(400).json({

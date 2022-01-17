@@ -74,8 +74,19 @@ export default async function handler(
         wallet: walletAddress,
       };
 
-      // Save the wallet to the user
-      await db.collection('users').doc(userID).set(user);
+      const statsRef = db.collection('root').doc('stats');
+      const batch = db.batch();
+      const increment = FirebaseFirestore.FieldValue.increment(1);
+
+      batch.set(db.collection('users').doc(userID), user);
+
+      if (usersAlreadyRegisteredWithWallet.empty) {
+        // user not registered so increment
+        batch.set(statsRef, { userCount: increment }, { merge: true });
+      }
+
+      // Save the changes to the db
+      await batch.commit();
     } catch {
       return res.status(400).json({
         result: 'failure',
