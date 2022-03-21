@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="261px" height="396px" viewBox="0 0 261 396" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 15</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#231F20" stop-opacity="0.382102273" offset="0%"></stop>
+            <stop stop-color="#231F20" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-2" points="22.7017553 0 0 22.8419114 0 38.5790443 11.3508776 50 244.193125 50 259 18.0785279 259 13.0410601 246.038959 0"></polygon>
+        <filter x="-3.1%" y="-16.1%" width="106.2%" height="132.2%" filterUnits="objectBoundingBox" id="filter-3">
+            <feGaussianBlur stdDeviation="5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="1" dy="-5" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <polygon id="path-4" points="22.7017553 0 0 22.8419114 0 38.5790443 11.3508776 50 244.193125 50 259 18.0785279 259 13.0410601 246.038959 0"></polygon>
+        <filter x="-3.1%" y="-16.1%" width="106.2%" height="132.2%" filterUnits="objectBoundingBox" id="filter-5">
+            <feGaussianBlur stdDeviation="5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="1" dy="-5" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <polygon id="path-6" points="22.7017553 0 0 22.8419114 0 38.5790443 11.3508776 50 244.193125 50 259 18.0785279 259 13.0410601 246.038959 0"></polygon>
+        <filter x="-3.1%" y="-16.1%" width="106.2%" height="132.2%" filterUnits="objectBoundingBox" id="filter-7">
+            <feGaussianBlur stdDeviation="5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="1" dy="-5" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <polygon id="path-8" points="22.7017553 0 0 22.8419114 0 38.5790443 11.3508776 50 244.193125 50 259 18.0785279 259 13.0410601 246.038959 0"></polygon>
+        <filter x="-3.1%" y="-16.1%" width="106.2%" height="132.2%" filterUnits="objectBoundingBox" id="filter-9">
+            <feGaussianBlur stdDeviation="5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="1" dy="-5" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <polygon id="path-10" points="22.7017553 0 0 22.8419114 0 38.5790443 11.3508776 50 244.193125 50 259 18.0785279 259 13.0410601 246.038959 0"></polygon>
+        <filter x="-3.1%" y="-16.1%" width="106.2%" height="132.2%" filterUnits="objectBoundingBox" id="filter-11">
+            <feGaussianBlur stdDeviation="5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="1" dy="-5" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Landing-page-+-Linking-page" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="LA-Link-your-wallet-Copy-6" transform="translate(-1103.000000, -150.000000)">
+            <g id="Group-15" transform="translate(1104.000000, 150.000000)">
+                <g id="Group" transform="translate(0.000000, 80.000000)">
+                    <g id="LA-contentbox">
+                        <g id="Path-12">
+                            <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                            <use stroke="#FFFF40" stroke-width="1.10059014" xlink:href="#path-2"></use>
+                        </g>
+                        <polyline id="Path-13" stroke="#FFFF40" stroke-width="3.30177041" points="233.719657 50 244.193125 50 248.837534 39.9018543"></polyline>
+                        <polyline id="Path-14" stroke="#FFFF40" stroke-width="3.30177041" points="7.27346178 15.5235447 22.7017553 0 51.5147705 1.0771623e-16"></polyline>
+                        <polygon id="Path-15" stroke="#00FFFF" stroke-width="1.10059014" fill="#00FFFF" points="250.437922 0 259 8.61493808 259 0"></polygon>
+                    </g>
+                    <text id="supply-:-500" font-family="Jura-Bold, Jura" font-size="14" font-weight="bold" fill="#C4C4C4">
+                        <tspan x="82.5785" y="32">SUPPLY : 500</tspan>
+                    </text>
+                </g>
+                <g id="Group-Copy" transform="translate(0.000000, 146.000000)">
+                    <g id="LA-contentbox">
+                        <g id="Path-12">
+                            <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-4"></use>
+                            <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-4"></use>
+                            <use stroke="#FFFF40" stroke-width="1.10059014" xlink:href="#path-4"></use>
+                        </g>
+                        <polyline id="Path-13" stroke="#FFFF40" stroke-width="3.30177041" points="233.719657 50 244.193125 50 248.837534 39.9018543"></polyline>
+                        <polyline id="Path-14" stroke="#FFFF40" stroke-width="3.30177041" points="7.27346178 15.5235447 22.7017553 0 51.5147705 1.0771623e-16"></polyline>
+                        <polygon id="Path-15" stroke="#00FFFF" stroke-width="1.10059014" fill="#00FFFF" points="250.437922 0 259 8.61493808 259 0"></polygon>
+                    </g>
+                    <text id="license-key-for-luna" font-family="Jura-Bold, Jura" font-size="14" font-weight="bold" fill="#C4C4C4">
+                        <tspan x="31.8145" y="32">LICENSE KEY FOR LUNAR HQ</tspan>
+                    </text>
+                </g>
+                <g id="Group-Copy-2" transform="translate(0.000000, 212.000000)">
+                    <g id="LA-contentbox">
+                        <g id="Path-12">
+                            <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-6"></use>
+                            <use fill="black" fill-opacity="1" filter="url(#filter-7)" xlink:href="#path-6"></use>
+                            <use stroke="#FFFF40" stroke-width="1.10059014" xlink:href="#path-6"></use>
+                        </g>
+                        <polyline id="Path-13" stroke="#FFFF40" stroke-width="3.30177041" points="233.719657 50 244.193125 50 248.837534 39.9018543"></polyline>
+                        <polyline id="Path-14" stroke="#FFFF40" stroke-width="3.30177041" points="7.27346178 15.5235447 22.7017553 0 51.5147705 1.0771623e-16"></polyline>
+                        <polygon id="Path-15" stroke="#00FFFF" stroke-width="1.10059014" fill="#00FFFF" points="250.437922 0 259 8.61493808 259 0"></polygon>
+                    </g>
+                    <text id="First-drop-in-G-Borg" font-family="Jura-Bold, Jura" font-size="14" font-weight="bold" fill="#C4C4C4">
+                        <tspan x="23.4845" y="32">FIRST DROP IN G-BORG SERIES</tspan>
+                    </text>
+                </g>
+                <g id="Group-Copy-3" transform="translate(0.000000, 278.000000)">
+                    <g id="LA-contentbox">
+                        <g id="Path-12">
+                            <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-8"></use>
+                            <use fill="black" fill-opacity="1" filter="url(#filter-9)" xlink:href="#path-8"></use>
+                            <use stroke="#FFFF40" stroke-width="1.10059014" xlink:href="#path-8"></use>
+                        </g>
+                        <polyline id="Path-13" stroke="#FFFF40" stroke-width="3.30177041" points="233.719657 50 244.193125 50 248.837534 39.9018543"></polyline>
+                        <polyline id="Path-14" stroke="#FFFF40" stroke-width="3.30177041" points="7.27346178 15.5235447 22.7017553 0 51.5147705 1.0771623e-16"></polyline>
+                        <polygon id="Path-15" stroke="#00FFFF" stroke-width="1.10059014" fill="#00FFFF" points="250.437922 0 259 8.61493808 259 0"></polygon>
+                    </g>
+                    <text id="DAO-membership" font-family="Jura-Bold, Jura" font-size="14" font-weight="bold" fill="#C4C4C4">
+                        <tspan x="67.0805" y="32">DAO MEMBERSHIP</tspan>
+                    </text>
+                </g>
+                <g id="Group-Copy-4" transform="translate(0.000000, 344.000000)">
+                    <g id="LA-contentbox">
+                        <g id="Path-12">
+                            <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-10"></use>
+                            <use fill="black" fill-opacity="1" filter="url(#filter-11)" xlink:href="#path-10"></use>
+                            <use stroke="#FFFF40" stroke-width="1.10059014" xlink:href="#path-10"></use>
+                        </g>
+                        <polyline id="Path-13" stroke="#FFFF40" stroke-width="3.30177041" points="233.719657 50 244.193125 50 248.837534 39.9018543"></polyline>
+                        <polyline id="Path-14" stroke="#FFFF40" stroke-width="3.30177041" points="7.27346178 15.5235447 22.7017553 0 51.5147705 1.0771623e-16"></polyline>
+                        <polygon id="Path-15" stroke="#00FFFF" stroke-width="1.10059014" fill="#00FFFF" points="250.437922 0 259 8.61493808 259 0"></polygon>
+                    </g>
+                    <text id="Airdrops-&amp;-gifts" font-family="Jura-Bold, Jura" font-size="14" font-weight="bold" fill="#C4C4C4">
+                        <tspan x="66.3455" y="32">AIRDROPS &amp; GIFTS</tspan>
+                    </text>
+                </g>
+                <text id="the-giving" font-family="UniwarsSb-Regular, Uniwars" font-size="25" font-weight="500" letter-spacing="0.892857143" fill="#E5E5E5">
+                    <tspan x="29.1482143" y="23">the giving</tspan>
+                </text>
+                <text id="Support-our-open-sou" opacity="0.800000012" font-family="Lato-Regular, Lato" font-size="14" font-weight="normal" line-spacing="18" fill="#C4C4C4">
+                    <tspan x="9" y="52">Support our open-source development.</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

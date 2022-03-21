@@ -1,0 +1,30 @@
+$max: 230;
+$offset: 2;
+$unit: 'px'; // Feel free to change the unit.
+@mixin padding-margin-loop($className, $styleName) {
+  $i: 0;
+  @while $i <= $max {
+    #{$className + $i} {
+      @if ($styleName == 'top_btm') {
+        padding-top: #{$i + $unit};
+        padding-bottom: #{$i + $unit};
+      } @else if ($styleName == 'lr') {
+        padding-left: #{$i + $unit};
+        padding-right: #{$i + $unit};
+      } @else {
+        #{$styleName}: #{$i + $unit};
+      }
+    }
+    $i: $i + $offset;
+  }
+}
+
+@include padding-margin-loop('.pd-top-', 'padding-top');
+@include padding-margin-loop('.pd-left-', 'padding-left');
+@include padding-margin-loop('.pd-right-', 'padding-right');
+@include padding-margin-loop('.pd-lr-', 'lr');
+@include padding-margin-loop('.mr-right-', 'margin-right');
+@include padding-margin-loop('.mr-left-', 'margin-left');
+@include padding-margin-loop('.mr-top-', 'margin-top');
+@include padding-margin-loop('.mr-bottom-', 'margin-bottom');
+@include padding-margin-loop('.mr-top_btm-', 'top_btm');
