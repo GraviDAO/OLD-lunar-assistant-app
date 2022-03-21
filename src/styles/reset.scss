@@ -1,0 +1,21 @@
+
+* {
+  &:active,
+  :focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+label {
+  margin-bottom: 0;
+}
+
+ol, ul, dl {
+  margin-bottom: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
