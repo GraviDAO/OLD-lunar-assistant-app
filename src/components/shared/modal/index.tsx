@@ -1,14 +1,14 @@
-import React from "react";
-import T from "prop-types";
+import React from 'react';
+import T from 'prop-types';
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   IconButton,
-} from "@material-ui/core";
-import { Close } from "@material-ui/icons";
+} from '@material-ui/core';
+import { Close } from '@material-ui/icons';
 
-import styles from "./modal.module.scss";
+import styles from './modal.module.scss';
 
 type IProps = {
   open: boolean;
