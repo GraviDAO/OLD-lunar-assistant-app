@@ -1,9 +1,12 @@
-import ConnectWallet from "@/components/ConnectWallet";
-import React, { useState } from "react";
+import ConnectWallet from '@/components/ConnectWallet';
+import React, { useState } from 'react';
+import { useWallet, WalletStatus } from '@terra-money/wallet-provider';
+
 // import PropTypes from 'prop-types';
 function LandingPage() {
   const [displayPopUp, setDisplayPopUp] = useState(false);
   const [connectWalletOpen, setConnectWalletOpen] = useState(false);
+  const { status, disconnect } = useWallet();
 
   const handleConnectWallet = () => {
     setConnectWalletOpen(!connectWalletOpen);
@@ -18,28 +21,28 @@ function LandingPage() {
   };
 
   const openSocialLink = (type: string) => {
-    if (type === "telegram") {
-      window.open("https://t.me/GraviDAO", "_blank");
-    } else if (type === "twitter") {
-      window.open("https://twitter.com/GraviDAO_", "_blank");
-    } else if (type === "medium") {
-      window.open("https://gravidao.medium.com/", "_blank");
-    } else if (type === "github") {
-      window.open("https://github.com/GraviDAO", "_blank");
-    } else if (type === "logo") {
-      window.open("https://lunarassistant.io/", "_blank");
-    } else if (type === "collection") {
+    if (type === 'telegram') {
+      window.open('https://t.me/GraviDAO', '_blank');
+    } else if (type === 'twitter') {
+      window.open('https://twitter.com/GraviDAO_', '_blank');
+    } else if (type === 'medium') {
+      window.open('https://gravidao.medium.com/', '_blank');
+    } else if (type === 'github') {
+      window.open('https://github.com/GraviDAO', '_blank');
+    } else if (type === 'logo') {
+      window.open('https://lunarassistant.io/', '_blank');
+    } else if (type === 'collection') {
       window.open(
-        "https://talis.art/collection/61d7877c92794d4227b31043",
-        "_blank"
+        'https://talis.art/collection/61d7877c92794d4227b31043',
+        '_blank',
       );
-    } else if (type === "read") {
+    } else if (type === 'read') {
       window.open(
-        "https://gravidao.medium.com/lunar-assistant-the-giving-d799b5a7ffc",
-        "_blank"
+        'https://gravidao.medium.com/lunar-assistant-the-giving-d799b5a7ffc',
+        '_blank',
       );
     } else {
-      window.open("https://discord.gg/nD6YFKQTRF", "_blank");
+      window.open('https://discord.gg/nD6YFKQTRF', '_blank');
     }
   };
   return (
@@ -84,20 +87,21 @@ function LandingPage() {
                 </button>
               </div>
               <div className="col-4 text-center hide-on-small">
+                {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
                 <img
                   className="la-logo"
                   src="/assets/img/logo.png"
                   alt=""
-                  onClick={() => openSocialLink("logo")}
-                  onKeyDown={() => openSocialLink("logo")}
+                  onClick={() => openSocialLink('logo')}
+                  onKeyDown={() => openSocialLink('logo')}
                 />
               </div>
 
               <div className="col-4 d-flex justify-content-end hide-on-small">
                 <div className="d-flex align-items-center">
                   <div
-                    onClick={() => openSocialLink("twitter")}
-                    onKeyDown={() => openSocialLink("twitter")}
+                    onClick={() => openSocialLink('twitter')}
+                    onKeyDown={() => openSocialLink('twitter')}
                     role="button"
                     tabIndex={-1}
                   >
@@ -108,8 +112,8 @@ function LandingPage() {
                   </div>
                   <div
                     className="pd-left-20"
-                    onClick={() => openSocialLink("discord")}
-                    onKeyDown={() => openSocialLink("discord")}
+                    onClick={() => openSocialLink('discord')}
+                    onKeyDown={() => openSocialLink('discord')}
                     role="button"
                     tabIndex={-1}
                   >
@@ -120,8 +124,8 @@ function LandingPage() {
                   </div>
                   <div
                     className="pd-left-20"
-                    onClick={() => openSocialLink("telegram")}
-                    onKeyDown={() => openSocialLink("telegram")}
+                    onClick={() => openSocialLink('telegram')}
+                    onKeyDown={() => openSocialLink('telegram')}
                     role="button"
                     tabIndex={-1}
                   >
@@ -132,8 +136,8 @@ function LandingPage() {
                   </div>
                   <div
                     className="pd-left-20"
-                    onClick={() => openSocialLink("medium")}
-                    onKeyDown={() => openSocialLink("medium")}
+                    onClick={() => openSocialLink('medium')}
+                    onKeyDown={() => openSocialLink('medium')}
                     role="button"
                     tabIndex={-1}
                   >
@@ -144,8 +148,8 @@ function LandingPage() {
                   </div>
                   <div
                     className="pd-left-20"
-                    onClick={() => openSocialLink("github")}
-                    onKeyDown={() => openSocialLink("github")}
+                    onClick={() => openSocialLink('github')}
+                    onKeyDown={() => openSocialLink('github')}
                     role="button"
                     tabIndex={-1}
                   >
@@ -170,8 +174,8 @@ function LandingPage() {
               <div className="pop-up-container">
                 <div
                   className="social-link mr-top-32 mr-bottom-32"
-                  onClick={() => openSocialLink("twitter")}
-                  onKeyDown={() => openSocialLink("twitter")}
+                  onClick={() => openSocialLink('twitter')}
+                  onKeyDown={() => openSocialLink('twitter')}
                   role="button"
                   tabIndex={-1}
                 >
@@ -179,8 +183,8 @@ function LandingPage() {
                 </div>
                 <div
                   className="social-link mr-bottom-32"
-                  onClick={() => openSocialLink("discord")}
-                  onKeyDown={() => openSocialLink("discord")}
+                  onClick={() => openSocialLink('discord')}
+                  onKeyDown={() => openSocialLink('discord')}
                   role="button"
                   tabIndex={-1}
                 >
@@ -188,8 +192,8 @@ function LandingPage() {
                 </div>
                 <div
                   className="social-link mr-bottom-32"
-                  onClick={() => openSocialLink("telegram")}
-                  onKeyDown={() => openSocialLink("telegram")}
+                  onClick={() => openSocialLink('telegram')}
+                  onKeyDown={() => openSocialLink('telegram')}
                   role="button"
                   tabIndex={-1}
                 >
@@ -197,8 +201,8 @@ function LandingPage() {
                 </div>
                 <div
                   className="social-link mr-bottom-32"
-                  onClick={() => openSocialLink("medium")}
-                  onKeyDown={() => openSocialLink("medium")}
+                  onClick={() => openSocialLink('medium')}
+                  onKeyDown={() => openSocialLink('medium')}
                   role="button"
                   tabIndex={-1}
                 >
@@ -206,8 +210,8 @@ function LandingPage() {
                 </div>
                 <div
                   className="social-link mr-bottom-32"
-                  onClick={() => openSocialLink("github")}
-                  onKeyDown={() => openSocialLink("github")}
+                  onClick={() => openSocialLink('github')}
+                  onKeyDown={() => openSocialLink('github')}
                   role="button"
                   tabIndex={-1}
                 >
@@ -218,17 +222,18 @@ function LandingPage() {
           )}
 
           <div className="show-on-mobile fixed-icon">
+            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
             <img
               className="la-logo"
               src="/assets/img/la-logo.png"
               alt=""
-              onClick={() => openSocialLink("logo")}
-              onKeyDown={() => openSocialLink("logo")}
+              onClick={() => openSocialLink('logo')}
+              onKeyDown={() => openSocialLink('logo')}
             />
           </div>
 
           <article className="row main-wrapper">
-            <div className="col-xs-12 col-sm-6 col-md-6 col-lg-4 flex-row-center mr-top80">
+            <div className="col-xs-12 col-sm-6 col-md-6 col-lg-4 flex-row-center mr-top--80">
               <div className="mr-top80">
                 <div className="connect-wallet-wrapper flex-column">
                   <div className="pd-top-26">
@@ -246,8 +251,19 @@ function LandingPage() {
                     <button
                       type="button"
                       className="btn-container main"
-                      onClick={handleConnectWallet}>
-                      Connect wallet
+                      onClick={
+                        status === WalletStatus.WALLET_CONNECTED
+                          ? () => {
+                              disconnect();
+                            }
+                          : () => {
+                              handleConnectWallet();
+                            }
+                      }
+                    >
+                      {status === WalletStatus.WALLET_CONNECTED
+                        ? 'Disconnect Wallet'
+                        : 'Connect Wallet'}
                     </button>
                   </div>
                 </div>
@@ -286,12 +302,12 @@ function LandingPage() {
                   />
                 </div>
                 <div className="pd-top-40">
-                  <div style={{ height: "60px" }}>
+                  <div style={{ height: '60px' }}>
                     <button
                       type="button"
                       className="btn-container main"
-                      onClick={() => openSocialLink("collection")}
-                      onKeyDown={() => openSocialLink("collection")}
+                      onClick={() => openSocialLink('collection')}
+                      onKeyDown={() => openSocialLink('collection')}
                     >
                       Collection
                     </button>
@@ -300,8 +316,8 @@ function LandingPage() {
                     <button
                       type="button"
                       className="btn-container cta3"
-                      onClick={() => openSocialLink("read")}
-                      onKeyDown={() => openSocialLink("read")}
+                      onClick={() => openSocialLink('read')}
+                      onKeyDown={() => openSocialLink('read')}
                     >
                       Read up
                     </button>

@@ -172,7 +172,8 @@
     text-transform: uppercase;
 }
 
-.btn-container.main:hover, .btn-container.main:focus {
+/*.btn-container.main:focus*/
+.btn-container.main:hover {
     width: 200px;
     height: 40px;
     line-height: 17px;
@@ -438,9 +439,13 @@
         margin-top: 40px;
     }
 
+    .mr-top--80 {
+        margin-top: 80px;
+    }
+
     .burger-icon {
         position: fixed;
-        right: 30px;
+        right: 24px;
         background: transparent;
         border: none;
     }

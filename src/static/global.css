@@ -1,0 +1,16 @@
+.wallet-wc-modal--content {
+  border-radius: 0 !important;
+  border: 3px solid #0ff;
+  background: #231F20 !important;
+  padding: 30px;
+  text-align: center;
+}
+
+.wallet-wc-modal--content h1 {
+  font-family: 'uniwars';
+  font-weight: bold;
+  color: #C4C4C4;
+  font-size: 22px;
+  margin-bottom: 30px;
+  text-align: center;
+}
