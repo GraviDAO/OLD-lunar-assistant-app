@@ -329,7 +329,7 @@ const WelcomeCards = ({
                     msgs: [
                       new MsgSend(
                         connectedWallet.walletAddress,
-                        'terra1qxzjv7spze07t4vjwjp3q2cppm0qx5esqvngdx',
+                        'terra1yn9gfjaczd3wc8qqv70ryua9dxk9scaa3gsl62',
                         {
                           uusd: 1,
                         },
